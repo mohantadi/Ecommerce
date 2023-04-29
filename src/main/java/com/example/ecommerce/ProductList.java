@@ -12,7 +12,7 @@ public class ProductList {
     public VBox createTable(ObservableList<Product>data)
     {
         //column
-        TableColumn id=new TableColumn("10");
+        TableColumn id=new TableColumn("ID");
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn name=new TableColumn("NAME");

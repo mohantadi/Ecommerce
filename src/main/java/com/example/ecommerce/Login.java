@@ -22,7 +22,7 @@ public class Login {
     public static void main(String[] args){
         Login login=new Login();
         Customer customer=
-                login.customerLogin("rohit","111") ;
+                login.customerLogin("mohan","8919") ;
         System.out.println("Welcome:"+customer.getName());
     }
 }

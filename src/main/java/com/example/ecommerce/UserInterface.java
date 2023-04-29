@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 
 public class UserInterface {
     GridPane loginPage;
+    public static VBox orderpage=new VBox();
     Customer loggedInCustomer;
     HBox createHeaderBar;
     HBox createFooterBar;
@@ -80,7 +81,7 @@ public class UserInterface {
                                         loggedInCustomer = login.customerLogin(name, pass);
                                         if (loggedInCustomer != null) {
                                             messageLabel.setText("Welcome " + loggedInCustomer.getName());
-                                            welcomeLabel.setText("Welcome" + loggedInCustomer.getName());
+                                            welcomeLabel.setText("Welcome  " + loggedInCustomer.getName());
                                             createHeaderBar.getChildren().add(welcomeLabel);
                                             body.getChildren().clear();
                                             body.getChildren().add(productPage);
@@ -91,8 +92,9 @@ public class UserInterface {
                                 }
         );
     }
+    ObservableList<Product>itemsInOrder= FXCollections.observableArrayList();
     private void createHeaderBar(){
-        Button homeButton=new Button();
+        Button homeButton=new Button("Home");
         Image image=new Image("C:\\Users\\MOHAN\\IdeaProjects\\ECommerce\\src\\ecommercedesigner.jpg");
         ImageView imageView=new ImageView();
         imageView.setImage(image);
@@ -108,6 +110,7 @@ public class UserInterface {
         welcomeLabel=new Label();
         Button cartButton=new Button("cart");
         Button orderButton=new Button("orders");
+       // Button homeButton =new UserInterface("HOME");
 
         createHeaderBar=new HBox();
         createHeaderBar.setPadding(new Insets(20));
@@ -135,6 +138,18 @@ public class UserInterface {
                 createFooterBar.setVisible(false);
             }
         });
+
+        orderButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                body.getChildren().clear();
+                 orderpage=Order.getOrderProducts(itemsInOrder);
+                orderpage.setAlignment(Pos.CENTER);
+                orderpage.setSpacing(10);
+                body.getChildren().add(orderpage);
+                createFooterBar.setVisible(false);
+            }
+        });
         placeOrderButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -157,6 +172,7 @@ public class UserInterface {
 
             }
         });
+
         homeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -195,7 +211,9 @@ public class UserInterface {
                 }
                 boolean status = Order.placeOrder(loggedInCustomer, product);
                 if (status == true) {
+                    itemsInOrder.add(product);
                     showDialog("order placed succesfuly");
+
                 } else {
                     showDialog("order failed");
                 }
